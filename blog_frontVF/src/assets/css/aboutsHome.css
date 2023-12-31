@@ -1,0 +1,20 @@
+.about-line{
+    height: 3px !important;
+    width: 90px !important;
+}
+
+.separate-line{
+    height: 3px !important;
+    width: 350px !important;
+}
+.separate-line-yellow{
+    height: 3px !important;
+    width: 250px !important;
+}
+.contact-line{
+    height: 3px !important;
+    width: 100px !important;
+}
+body{
+    overflow-x: hidden;
+}
