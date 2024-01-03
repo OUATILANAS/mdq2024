@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StoryService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-security-jwt</a> &gt; <a href="index.source.html" class="el_package">com.mdq.springjwt.services</a> &gt; <span class="el_source">StoryService.java</span></div><h1>StoryService.java</h1><pre class="source lang-java linenums">package com.mdq.springjwt.services;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mdq.springjwt.models.Story;
+import com.mdq.springjwt.repository.StoryRepository;
+
+
+
+
+
+@Service
+public class StoryService {
+    private final StoryRepository storyRepository;
+
+    @Autowired
+<span class="fc" id="L21">    public StoryService(StoryRepository storyRepository) {</span>
+<span class="fc" id="L22">        this.storyRepository = storyRepository;</span>
+<span class="fc" id="L23">    }</span>
+	
+<span class="fc" id="L25">	public List&lt;Story&gt; findAll() {return storyRepository.findAll();}</span>
+
+<span class="fc" id="L27">    public Story save(Story entity) {return storyRepository.save(entity);}</span>
+
+<span class="fc" id="L29">    public Optional&lt;Story&gt; findById(Long id) {return storyRepository.findById(id);}</span>
+
+    public void deleteById(Long id){
+<span class="nc" id="L32">    	storyRepository.deleteById(id);</span>
+<span class="nc" id="L33">    }</span>
+    public void update(Story story){
+<span class="nc" id="L35">    	storyRepository.save(story);</span>
+<span class="nc" id="L36">    }</span>
+    public List&lt;Story&gt; findStoriesByAuthor(String author){
+<span class="nc" id="L38">        return storyRepository.findStoriesByAuthor(author);</span>
+     };
+    public Story findLastStory() {
+<span class="fc" id="L41">        List&lt;Story&gt; stories = storyRepository.findAll();</span>
+
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (!stories.isEmpty()) {</span>
+<span class="fc" id="L44">            return stories.get(stories.size() - 1);</span>
+        } else {
+<span class="fc" id="L46">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

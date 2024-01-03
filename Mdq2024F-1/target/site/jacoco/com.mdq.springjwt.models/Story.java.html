@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Story.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-security-jwt</a> &gt; <a href="index.source.html" class="el_package">com.mdq.springjwt.models</a> &gt; <span class="el_source">Story.java</span></div><h1>Story.java</h1><pre class="source lang-java linenums">package com.mdq.springjwt.models;
+
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Entity
+public class Story {
+
+	 @Id
+	 @GeneratedValue(strategy = GenerationType.IDENTITY)
+	 private Long storyId;
+
+	 private String title;
+
+	 private String content;
+
+	 private String image1;
+
+	 private String image2;
+
+	 private String image3;
+
+	 private String city;
+	 private String author;
+
+
+
+
+	public Long getStoryId() {
+<span class="nc" id="L38">		return storyId;</span>
+	}
+
+	public String getCity() {
+<span class="nc" id="L42">		return city;</span>
+	}
+
+	public void setCity(String city) {
+<span class="nc" id="L46">		this.city = city;</span>
+<span class="nc" id="L47">	}</span>
+
+	public String getAuthor() {
+<span class="nc" id="L50">		return author;</span>
+	}
+
+	public void setAuthor(String author) {
+<span class="nc" id="L54">		this.author = author;</span>
+<span class="nc" id="L55">	}</span>
+
+	public void setStoryId(Long storyId) {
+<span class="nc" id="L58">		this.storyId = storyId;</span>
+<span class="nc" id="L59">	}</span>
+
+	public String getTitle() {
+<span class="nc" id="L62">		return title;</span>
+	}
+
+	public void setTitle(String title) {
+<span class="nc" id="L66">		this.title = title;</span>
+<span class="nc" id="L67">	}</span>
+
+	public String getContent() {
+<span class="nc" id="L70">		return content;</span>
+	}
+
+	public void setContent(String content) {
+<span class="nc" id="L74">		this.content = content;</span>
+<span class="nc" id="L75">	}</span>
+
+
+<span class="nc" id="L78">	public Story(Long storyId, String title, String content) {</span>
+<span class="nc" id="L79">		this.storyId = storyId;</span>
+<span class="nc" id="L80">		this.title = title;</span>
+<span class="nc" id="L81">		this.content = content;</span>
+
+<span class="nc" id="L83">	}</span>
+
+<span class="fc" id="L85">	public Story() {</span>
+<span class="fc" id="L86">	}</span>
+
+<span class="nc" id="L88">	public Story(String title, String content) {</span>
+<span class="nc" id="L89">		this.title = title;</span>
+<span class="nc" id="L90">		this.content = content;</span>
+<span class="nc" id="L91">	}</span>
+
+	public String getImage1() {
+<span class="nc" id="L94">		return image1;</span>
+	}
+
+	public void setImage1(String image1) {
+<span class="nc" id="L98">		this.image1 = image1;</span>
+<span class="nc" id="L99">	}</span>
+
+	public String getImage2() {
+<span class="nc" id="L102">		return image2;</span>
+	}
+
+	public void setImage2(String image2) {
+<span class="nc" id="L106">		this.image2 = image2;</span>
+<span class="nc" id="L107">	}</span>
+
+	public String getImage3() {
+<span class="nc" id="L110">		return image3;</span>
+	}
+
+	public void setImage3(String image3) {
+<span class="nc" id="L114">		this.image3 = image3;</span>
+<span class="nc" id="L115">	}</span>
+
+<span class="nc" id="L117">	public Story(Long storyId, String title, String content, String image1, String image2, String image3) {</span>
+<span class="nc" id="L118">		this.storyId = storyId;</span>
+<span class="nc" id="L119">		this.title = title;</span>
+<span class="nc" id="L120">		this.content = content;</span>
+<span class="nc" id="L121">		this.image1 = image1;</span>
+<span class="nc" id="L122">		this.image2 = image2;</span>
+<span class="nc" id="L123">		this.image3 = image3;</span>
+<span class="nc" id="L124">	}</span>
+
+<span class="nc" id="L126">	public Story(Long storyId, String title, String content, String image1, String image2) {</span>
+<span class="nc" id="L127">		this.storyId = storyId;</span>
+<span class="nc" id="L128">		this.title = title;</span>
+<span class="nc" id="L129">		this.content = content;</span>
+<span class="nc" id="L130">		this.image1 = image1;</span>
+<span class="nc" id="L131">		this.image2 = image2;</span>
+<span class="nc" id="L132">	}</span>
+
+<span class="nc" id="L134">	public Story(Long storyId, String title, String content, String image1) {</span>
+<span class="nc" id="L135">		this.storyId = storyId;</span>
+<span class="nc" id="L136">		this.title = title;</span>
+<span class="nc" id="L137">		this.content = content;</span>
+<span class="nc" id="L138">		this.image1 = image1;</span>
+<span class="nc" id="L139">	}</span>
+
+<span class="fc" id="L141">	public Story(Long storyId, String title, String content, String image1, String image2, String image3, String city,</span>
+			String author) {
+<span class="fc" id="L143">		this.storyId = storyId;</span>
+<span class="fc" id="L144">		this.title = title;</span>
+<span class="fc" id="L145">		this.content = content;</span>
+<span class="fc" id="L146">		this.image1 = image1;</span>
+<span class="fc" id="L147">		this.image2 = image2;</span>
+<span class="fc" id="L148">		this.image3 = image3;</span>
+<span class="fc" id="L149">		this.city = city;</span>
+<span class="fc" id="L150">		this.author = author;</span>
+<span class="fc" id="L151">	}</span>
+
+
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

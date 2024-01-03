@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CommentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-security-jwt</a> &gt; <a href="index.source.html" class="el_package">com.mdq.springjwt.services</a> &gt; <span class="el_source">CommentService.java</span></div><h1>CommentService.java</h1><pre class="source lang-java linenums">package com.mdq.springjwt.services;
+
+import java.io.Console;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.mdq.springjwt.models.Comment;
+import com.mdq.springjwt.models.Story;
+import com.mdq.springjwt.repository.CommentRepository;
+import com.mdq.springjwt.repository.StoryRepository;
+
+
+
+
+@Service
+public class CommentService {
+
+	@Autowired
+    private CommentRepository commentRepository;
+    private final StoryService storyService;
+
+<span class="fc" id="L25">	public List&lt;Comment&gt; findAll() {return commentRepository.findAll();}</span>
+
+<span class="fc" id="L27">    public Comment save(Comment entity) {return commentRepository.save(entity);}</span>
+
+<span class="nc" id="L29">    public Optional&lt;Comment&gt; findById(Long id) {return commentRepository.findById(id);}</span>
+
+    public void deleteById(Long id){
+<span class="nc" id="L32">    	commentRepository.deleteById(id);</span>
+<span class="nc" id="L33">    }</span>
+    public void update(Comment comment){
+<span class="nc" id="L35">    	commentRepository.save(comment);</span>
+<span class="nc" id="L36">    }</span>
+
+    private final StoryRepository storyRepository;
+
+
+
+    public List&lt;Comment&gt; findCommentsByStoryId(Long id) {
+<span class="fc" id="L43">        Optional&lt;Story&gt; storyOptional = storyService.findById(id);</span>
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (storyOptional.isPresent()) {</span>
+<span class="fc" id="L46">            Story story = storyOptional.get();</span>
+<span class="fc" id="L47">            List&lt;Comment&gt; comments = commentRepository.findByStory(story);</span>
+<span class="fc" id="L48">            return comments;</span>
+        } else {
+
+<span class="fc" id="L51">            return List.of();</span>
+        }
+    }
+
+
+    @Autowired
+<span class="fc" id="L57">    public CommentService(StoryService storyService) {</span>
+<span class="fc" id="L58">        this.storyService = storyService;</span>
+<span class="fc" id="L59">		this.storyRepository = null;</span>
+<span class="fc" id="L60">    }</span>
+   
+<span class="nc" id="L62">    public CommentService(CommentRepository commentRepository, StoryRepository storyRepository) {</span>
+<span class="nc" id="L63">        this.commentRepository = commentRepository;</span>
+<span class="nc" id="L64">		this.storyService = null;</span>
+<span class="nc" id="L65">        this.storyRepository = storyRepository;</span>
+<span class="nc" id="L66">    }</span>
+
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

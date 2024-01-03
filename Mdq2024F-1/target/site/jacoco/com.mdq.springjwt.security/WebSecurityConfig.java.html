@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebSecurityConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">spring-boot-security-jwt</a> &gt; <a href="index.source.html" class="el_package">com.mdq.springjwt.security</a> &gt; <span class="el_source">WebSecurityConfig.java</span></div><h1>WebSecurityConfig.java</h1><pre class="source lang-java linenums">package com.mdq.springjwt.security;
+
+import com.mdq.springjwt.security.jwt.JwtUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+//import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.mdq.springjwt.security.jwt.AuthEntryPointJwt;
+import com.mdq.springjwt.security.jwt.AuthTokenFilter;
+import com.mdq.springjwt.security.services.UserDetailsServiceImpl;
+
+@Configuration
+@EnableMethodSecurity
+
+public class WebSecurityConfig {
+  private final UserDetailsServiceImpl userDetailsService;
+  private final AuthEntryPointJwt unauthorizedHandler;
+  private final JwtUtils jwtUtils;
+  @Autowired
+<span class="fc" id="L33">  public WebSecurityConfig(UserDetailsServiceImpl userDetailsService, AuthEntryPointJwt unauthorizedHandler, JwtUtils jwtUtils) {</span>
+<span class="fc" id="L34">    this.userDetailsService = userDetailsService;</span>
+<span class="fc" id="L35">    this.unauthorizedHandler = unauthorizedHandler;</span>
+<span class="fc" id="L36">    this.jwtUtils = jwtUtils;</span>
+<span class="fc" id="L37">  }</span>
+  @Bean
+  public AuthTokenFilter authenticationJwtTokenFilter() {
+<span class="fc" id="L40">    return new AuthTokenFilter(jwtUtils, userDetailsService);</span>
+  }
+
+
+  
+  @Bean
+  public DaoAuthenticationProvider authenticationProvider() {
+<span class="fc" id="L47">      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();</span>
+       
+<span class="fc" id="L49">      authProvider.setUserDetailsService(userDetailsService);</span>
+<span class="fc" id="L50">      authProvider.setPasswordEncoder(passwordEncoder());</span>
+   
+<span class="fc" id="L52">      return authProvider;</span>
+  }
+
+
+  
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+<span class="fc" id="L59">    return authConfig.getAuthenticationManager();</span>
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+<span class="fc" id="L64">    return new BCryptPasswordEncoder();</span>
+  }
+
+
+  
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+<span class="fc" id="L71">    http.csrf(csrf -&gt; csrf.disable())</span>
+<span class="fc" id="L72">        .exceptionHandling(exception -&gt; exception.authenticationEntryPoint(unauthorizedHandler))</span>
+<span class="fc" id="L73">        .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))</span>
+<span class="fc" id="L74">        .authorizeHttpRequests(auth -&gt; </span>
+<span class="fc" id="L75">          auth.requestMatchers(&quot;/api/auth/**&quot;).permitAll()</span>
+<span class="fc" id="L76">              .requestMatchers(&quot;/api/test/**&quot;).permitAll()</span>
+<span class="fc" id="L77">              .requestMatchers(&quot;/branche/api/**&quot;).permitAll()</span>
+<span class="fc" id="L78">              .requestMatchers(&quot;/**&quot;).permitAll()</span>
+<span class="fc" id="L79">              .requestMatchers(&quot;/api/excel/**&quot;).permitAll()</span>
+<span class="fc" id="L80">              .requestMatchers(&quot;api/photo/**&quot;).permitAll()</span>
+<span class="fc" id="L81">              .requestMatchers(&quot;api/blog/**&quot;).permitAll()</span>
+<span class="fc" id="L82">              .requestMatchers(&quot;api/comment/**&quot;).permitAll()</span>
+<span class="fc" id="L83">              .requestMatchers(&quot;api/story/**&quot;).permitAll()</span>
+<span class="fc" id="L84">              .requestMatchers(&quot;/swagger-ui.html&quot;).permitAll()</span>
+<span class="fc" id="L85">              .requestMatchers(&quot;/api/auth/signin&quot;).permitAll()</span>
+<span class="fc" id="L86">              .requestMatchers(&quot;/tache/api/**&quot;).permitAll()</span>
+<span class="fc" id="L87">              .requestMatchers(&quot;/swagger-ui/**&quot;).permitAll()</span>
+<span class="fc" id="L88">              .requestMatchers(&quot;v3/api-docs/**&quot;).permitAll()</span>
+<span class="fc" id="L89">              .anyRequest().authenticated()</span>
+        );
+    
+<span class="fc" id="L92">    http.authenticationProvider(authenticationProvider());</span>
+
+<span class="fc" id="L94">    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);</span>
+    
+<span class="fc" id="L96">    return http.build();</span>
+  }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
